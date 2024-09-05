@@ -525,22 +525,22 @@ def draw_bezier_curve(debug_image, ctrl_points):
     n = len(ctrl_points) - 1
     coeffs = binomial_coeffs(n)
 
-    # Resolución de la curva
+    # Distancia de los puntos de la curva
     resolution = 1000
 
     for t in np.linspace(0, 1, resolution):
-        bezier_point = np.array([0.0, 0.0])
+        bez_pt = np.array([0.0, 0.0])
 
         for i in range(n + 1):
-            # Calcular el polinomio de Bernstein corregido
+            # Calcular el polinomio
             bernstein_poly = coeffs[i] * ((1 - t) ** (n - i)) * (t ** i)
-            bezier_point += bernstein_poly * np.array(ctrl_points[i])
+            bez_pt += bernstein_poly * np.array(ctrl_points[i])
 
         # Convertir el punto a entero para dibujar
-        bezier_point = tuple(bezier_point.astype(int))
+        bez_pt = tuple(bez_pt.astype(int))
 
         # Dibujar el punto en la imagen
-        cv.circle(debug_image, bezier_point, 1, (255, 0, 0), -1)
+        cv.circle(debug_image, bez_pt, 1, (255, 0, 0), -1)
 
     return debug_image
 
